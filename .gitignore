@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+lines.csv
+board.csv
+backtest_rows.csv
+*_log.txt
+jdk/
+api_key.txt
+hs_err_pid*.log

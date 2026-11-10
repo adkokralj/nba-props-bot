@@ -1,0 +1,10 @@
+pandas>=3.0
+numpy
+scipy
+requests
+nba_api
+certifi
+PyPDF2
+aiohttp
+jpype1
+tabula-py
