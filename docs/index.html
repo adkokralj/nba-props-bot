@@ -1,58 +1,208 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NBA Props Board</title>
+<meta name="color-scheme" content="dark">
+<title>Props Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f6f7f9;--card:#fff;--ink:#14171c;--mute:#667085;--line:#e4e7ec;--acc:#1f6feb;--good:#12805c;--bad:#c0392b;--warn:#b7791f}
-@media (prefers-color-scheme:dark){:root{--bg:#0f1216;--card:#171b21;--ink:#eceff4;--mute:#9aa4b2;--line:#262c35;--acc:#5b9dff;--good:#3ecf9a;--bad:#ff7a6b;--warn:#e5b44f}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,system-ui,Segoe UI,Roboto,sans-serif}
-.wrap{max-width:1100px;margin:0 auto;padding:16px}
-h1{font-size:20px;margin:4px 0}.sub{color:var(--mute);font-size:13px}
-.tabs{display:flex;gap:6px;margin:14px 0;overflow-x:auto}
-.tabs button{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:999px;font:inherit;cursor:pointer;white-space:nowrap}
-.tabs button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
-select,input{font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
-table{width:100%;border-collapse:collapse;font-size:13.5px}th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
-th{color:var(--mute);font-weight:600;position:sticky;top:0;background:var(--card)}
-.scroll{overflow-x:auto}.pos{color:var(--good);font-weight:600}.neg{color:var(--bad)}
-.tag{font-size:12px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--mute)}
-.warn{color:var(--warn)}.leg{padding:6px 0;border-top:1px solid var(--line)}.leg:first-of-type{border-top:0}
-.slipHead{display:flex;justify-content:space-between;gap:8px;font-weight:600;margin-bottom:4px}
-.note{background:var(--card);border-left:3px solid var(--warn);padding:10px 12px;border-radius:8px;margin-bottom:12px;font-size:13.5px}
-</style></head><body><div class="wrap">
-<h1>NBA Props Board</h1><div class="sub" id="meta">Loading…</div>
-<div class="note">Picks only — this never places bets. Big edges (above ~12%) usually mean the books know something the model doesn't (lineup, minutes, news). Treat them as "check first". Results below show whether the model really beats the market.</div>
-<div class="tabs" id="tabs"></div><div id="view"></div></div>
+:root{
+  --floor:#0f1b24;      /* arena floor */
+  --floor2:#16262f;
+  --line:#25394a;
+  --paper:#f3f5f1;      /* ticket stock */
+  --paper2:#e4e8e1;
+  --ink:#0e1a22;
+  --ink2:#51606b;
+  --txt:#e9eef1;
+  --mute:#8fa3b0;
+  --ball:#ff7a3d;       /* basketball orange */
+  --good:#27c28a;
+  --bad:#ff6b5e;
+  --amber:#f2b84b;
+  --disp:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html{color-scheme:dark}
+body{margin:0;background:var(--floor);color:var(--txt);font:16px/1.5 var(--body);-webkit-text-size-adjust:100%}
+.wrap{max-width:1080px;margin:0 auto;padding:20px 16px 56px}
+a,button,select,input{font:inherit}
+:focus-visible{outline:2px solid var(--ball);outline-offset:2px}
+
+/* masthead */
+.top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand{font:700 30px/1 var(--disp);letter-spacing:.01em;margin:0}
+.when{color:var(--mute);font-size:14px}
+.tabs{display:flex;gap:4px;margin:18px 0 22px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{background:none;border:0;color:var(--mute);padding:10px 14px;font:600 17px/1 var(--disp);letter-spacing:.02em;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-1px}
+.tabs button[aria-selected=true]{color:var(--txt);border-bottom-color:var(--ball)}
+
+/* hero: how many slips land */
+.hero{display:grid;gap:18px;margin-bottom:26px}
+.hero-num{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.hero-num b{font:700 76px/.9 var(--disp);color:var(--ball)}
+.hero-num span{font:500 22px/1.2 var(--disp);color:var(--txt)}
+.scale{position:relative;height:96px;margin:0 6px}
+.scale .rail{position:absolute;left:0;right:0;top:62px;height:6px;border-radius:3px;background:linear-gradient(90deg,hsl(20 95% 58%),hsl(85 70% 50%),hsl(150 60% 48%))}
+.scale .tick{position:absolute;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px;font:700 14px/1 var(--disp);color:var(--txt)}
+.scale .tick i{width:2px;background:var(--txt);border-radius:1px;display:block;flex:1}
+.scale .ends{position:absolute;left:0;right:0;top:76px;display:flex;justify-content:space-between;color:var(--mute);font-size:12px}
+.fine{color:var(--mute);font-size:13px;max-width:62ch;margin:0}
+
+.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 14px}
+.bar .lbl{color:var(--mute);font-size:14px;margin-right:2px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{background:none;border:0;color:var(--mute);padding:7px 14px;cursor:pointer;font-size:14px}
+.seg button[aria-pressed=true]{background:var(--floor2);color:var(--txt)}
+
+/* tickets */
+.tickets{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:820px){.tickets{grid-template-columns:1fr 1fr}}
+.ticket{display:grid;grid-template-columns:1fr 112px;background:var(--paper);color:var(--ink);border-radius:14px;position:relative;overflow:hidden}
+.ticket:before,.ticket:after{content:"";position:absolute;right:98px;width:20px;height:20px;border-radius:50%;background:var(--floor)}
+.ticket:before{top:-10px}.ticket:after{bottom:-10px}
+.main{padding:16px 14px 14px 18px}
+.head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:6px;font:600 16px/1 var(--disp);color:var(--ink2);letter-spacing:.02em}
+.head b{color:var(--ink);font-size:20px}
+.leg{padding:9px 0;border-top:1px dashed #b9c2bb}
+.leg:first-of-type{border-top:0}
+.who{display:flex;justify-content:space-between;gap:2px 10px;align-items:baseline;flex-wrap:wrap}
+.who strong{font-weight:600;font-size:17px}
+.pick{font:600 19px/1.1 var(--disp);white-space:nowrap}
+.pick .over{color:#0f8a5f}.pick .under{color:#c2410c}
+.meta{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:13px;color:var(--ink2);margin-top:2px}
+.why{font-size:13px;color:var(--ink2);margin-top:2px}
+.stub{border-left:2px dashed #b9c2bb;background:var(--paper2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px 6px}
+.ring{--p:0;--c:var(--ball);width:84px;height:84px;border-radius:50%;display:grid;place-items:center;
+  background:conic-gradient(var(--c) calc(var(--p)*1%),#cfd6cf 0)}
+.ring span{width:66px;height:66px;border-radius:50%;background:var(--paper2);display:flex;align-items:center;justify-content:center;gap:1px;font:700 28px/1 var(--disp);color:var(--ink)}
+.ring small{font:600 14px/1 var(--disp);margin-top:5px}
+.stub .cap{font-size:12px;color:var(--ink2);text-align:center;line-height:1.25}
+.stub .pay{font:600 15px/1 var(--disp);color:var(--ink)}
+@media(max-width:380px){.ticket{grid-template-columns:1fr 96px}.ticket:before,.ticket:after{right:82px}.ring{width:72px;height:72px}.ring span{width:56px;height:56px;font-size:22px}}
+
+/* tables */
+.panel{background:var(--floor2);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px}
+.panel h3{margin:0 0 8px;font:600 20px/1.1 var(--disp)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+th{color:var(--mute);font-weight:500;font-size:13px}
+td:first-child,th:first-child{position:sticky;left:0;background:var(--floor2)}
+.pos{color:var(--good);font-weight:600}.neg{color:var(--bad)}
+.warn{color:var(--amber);white-space:normal;min-width:160px}
+.filters{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:12px;color:var(--mute);font-size:14px}
+select,input[type=number]{background:var(--floor);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+input[type=number]{width:70px}
+.rk{display:inline-block;min-width:26px;text-align:center;border-radius:6px;padding:1px 6px;font-weight:600;color:#06141b}
+.empty{color:var(--mute);padding:24px 4px}
+.note{border-left:3px solid var(--amber);padding:2px 0 2px 12px;color:var(--mute);font-size:14px;margin:0 0 20px;max-width:70ch}
+</style></head>
+<body><div class="wrap">
+<div class="top"><h1 class="brand">Props Board</h1><div class="when" id="meta">Loading…</div></div>
+<div class="tabs" id="tabs" role="tablist"></div>
+<div id="view"></div>
+</div>
 <script>
-const $=s=>document.querySelector(s);let D=null,tab='slips';
-const pct=x=>(x*100).toFixed(1)+'%',MK={pts:'PTS',reb:'REB',ast:'AST',fg3m:'3PM',pra:'PRA',ra:'RA'};
+const $=s=>document.querySelector(s);
+let D=null,tab='slips',sortBy='value';
+const MK={pts:'PTS',reb:'REB',ast:'AST',fg3m:'3PM',pra:'PRA',ra:'RA'};
+const pct=x=>(x*100).toFixed(1)+'%', pc0=x=>Math.round(x*100);
 const odds=o=>o>0?'+'+o:o;
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const hue=p=>20+130*Math.min(1,Math.max(0,p));          // low chance = orange, high = green
+const col=p=>`hsl(${hue(p)} 75% 45%)`;
+
 fetch('data.json?'+Date.now()).then(r=>r.json()).then(d=>{D=d;
- $('#meta').textContent=`Game day ${d.game_day} · updated ${d.updated} · ${d.n_legs} props priced, ${d.n_eligible} passed every rule`;
- draw()}).catch(()=>{$('#meta').textContent='No data yet — the first daily run has not finished.'});
-function tabs(){const t=[['slips','Slips'],['board','Board'],['teams','Team ranks'],['results','Results'],['info','Notes']];
- $('#tabs').innerHTML=t.map(([k,l])=>`<button class="${k==tab?'on':''}" onclick="tab='${k}';draw()">${l}</button>`).join('')}
-function draw(){tabs();if(!D)return;({slips,board,teams,results,info})[tab]()}
-function slips(){const s=D.slips;if(!s.length){$('#view').innerHTML='<div class="card">No slips today — nothing passed every rule.</div>';return}
- const avg=(s.reduce((a,x)=>a+x.n,0)/s.length).toFixed(2);
- $('#view').innerHTML=`<div class="sub" style="margin-bottom:8px">${s.length} slips · average ${avg} legs</div>`+s.map(x=>`<div class="card"><div class="slipHead"><span>${x.n}-leg</span><span>hit ${pct(x.p_hit)} · pays ${x.pays}x · EV <span class="pos">${(x.ev*100).toFixed(0)}%</span></span></div>`+
- x.legs.map(l=>`<div class="leg"><b>${l.player}</b> ${MK[l.market]} ${l.side} ${l.line} <span class="tag">${odds(l.odds)} ${l.book}</span><div class="sub">proj ${l.proj} · edge ${pct(l.edge)} · why: ${l.why}</div></div>`).join('')+'</div>').join('')}
-function board(){const mk=['all',...Object.keys(MK)];
- $('#view').innerHTML=`<div class="card"><div class="row"><label>Market <select id="fm">${mk.map(m=>`<option value="${m}">${MK[m]||'All'}</option>`).join('')}</select></label>
- <label>Min edge % <input id="fe" type="number" value="3" style="width:70px"></label>
- <label><input id="fo" type="checkbox" checked> passed all rules only</label></div><div class="scroll"><table id="bt"></table></div></div>`;
- ['fm','fe','fo'].forEach(i=>$('#'+i).oninput=fill);fill()}
-function fill(){const m=$('#fm').value,e=+$('#fe').value/100,o=$('#fo').checked;
- let rows=(o?D.eligible:D.board).filter(r=>(m=='all'||r.market==m)&&r.edge>=e);
- $('#bt').innerHTML='<tr><th>Player</th><th>Mkt</th><th>Pick</th><th>Odds</th><th>Proj</th><th>Model</th><th>Market</th><th>Edge</th><th>EV</th><th>Why</th><th>Notes</th></tr>'+
- rows.map(r=>`<tr><td>${r.player}</td><td>${MK[r.market]}</td><td>${r.side} ${r.line}</td><td>${odds(r.odds)} ${r.book}</td><td>${r.proj}</td><td>${pct(r.p_model)}</td><td>${pct(r.p_market)}</td><td class="pos">${pct(r.edge)}</td><td>${pct(r.ev)}</td><td>${r.why||''}</td><td class="warn">${[r.flag,r.corr].filter(Boolean).join(' · ')}</td></tr>`).join('')||'<tr><td>No rows</td></tr>'}
-function teams(){const k=['team','pace','pace#','ORtg','ORtg#','DRtg','DRtg#','PTSa','PTSa#','REBa','REBa#','ASTa','ASTa#','3PMa','3PMa#'];
- $('#view').innerHTML=`<div class="card"><div class="sub">Tonight's teams. "#" = rank, 1 = best defence / best offence / fastest. "a" = allowed per game.</div><div class="scroll"><table><tr>${k.map(c=>`<th>${c}</th>`).join('')}</tr>`+D.ranks.map(r=>`<tr>${k.map(c=>`<td>${r[c]}</td>`).join('')}</tr>`).join('')+'</table></div></div>'}
-function results(){const R=D.results;if(!R.graded){$('#view').innerHTML=`<div class="card">No graded picks yet (${R.logged||0} logged). Results appear the morning after games finish. Judge the model only after a few hundred graded picks.</div>`;return}
- const T=(t,a)=>`<div class="card"><b>${t}</b><div class="scroll"><table><tr><th></th><th>Picks</th><th>Hit rate</th><th>Model said</th><th>Units</th><th>ROI</th></tr>`+(a||[]).map(r=>`<tr><td>${r.group}</td><td>${r.picks}</td><td>${pct(r.hit)}</td><td>${pct(r.avg_p)}</td><td class="${r.units>=0?'pos':'neg'}">${r.units.toFixed(1)}</td><td class="${r.roi>=0?'pos':'neg'}">${pct(r.roi)}</td></tr>`).join('')+'</table></div></div>';
- $('#view').innerHTML=`<div class="sub" style="margin-bottom:8px">${R.graded} graded · ${R.pending} pending · 1 unit per pick</div>`+T('All picks',R.all)+T('Passed every rule (what goes on slips)',R.eligible)+T('By market',R.market)+T('By lens that drove the pick',R.lens)+T('By side',R.side)}
-function info(){$('#view').innerHTML=`<div class="card"><b>Injury / lineup notes</b><div class="sub">${D.injuries.length?D.injuries.join('<br>'):'None today.'}</div></div>
- <div class="card"><b>Props with an edge but kept off slips (playing-time gate)</b><div class="sub">${D.dropped.length?D.dropped.map(d=>`${d.player} ${d.side} ${d.line}: ${d.why}`).join('<br>'):'None.'}</div></div>`}
+  let up=d.updated;try{up=new Date(d.updated.replace(' UTC','Z').replace(' ','T')).toLocaleString([], {weekday:'short',hour:'2-digit',minute:'2-digit'})}catch(e){}
+  $('#meta').textContent=`Games on ${d.game_day} · updated ${up} · ${d.n_eligible} of ${d.n_legs} props passed every check`;
+  draw();
+}).catch(()=>{$('#meta').textContent='No data yet. The first daily run has not finished.';draw()});
+
+function tabs(){
+  const t=[['slips','Slips'],['board','Board'],['teams','Teams'],['results','Results'],['info','Notes']];
+  $('#tabs').innerHTML=t.map(([k,l])=>`<button role="tab" aria-selected="${k==tab}" data-t="${k}">${l}</button>`).join('');
+  document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>{tab=b.dataset.t;draw()});
+}
+function draw(){tabs();if(!D){$('#view').innerHTML='';return}({slips,board,teams,results,info})[tab]()}
+
+function slips(){
+  const s=[...D.slips];
+  if(!s.length){$('#view').innerHTML='<div class="empty">No slips today. Nothing passed every check.</div>';return}
+  const exp=s.reduce((a,x)=>a+x.p_hit,0);
+  const order=sortBy=='chance'?[...s].sort((a,b)=>b.p_hit-a.p_hit):sortBy=='legs'?[...s].sort((a,b)=>a.n-b.n||b.p_hit-a.p_hit):s;
+  const idx=new Map(s.map((x,i)=>[x,i+1]));
+  const placed=[];
+  const ticks=[...s].sort((a,b)=>a.p_hit-b.p_hit).map(x=>{
+    let r=0;while(placed.some(q=>q.r==r&&Math.abs(q.p-x.p_hit)<.045))r++;placed.push({r,p:x.p_hit});
+    const h=26+r*20;                         // taller stem = higher row, so close numbers never overlap
+    return `<div class="tick" style="left:${(x.p_hit*100).toFixed(1)}%;top:${58-h}px;height:${h}px"><span>${idx.get(x)}</span><i></i></div>`}).join('');
+  $('#view').innerHTML=`
+  <section class="hero" aria-label="Chance slips land">
+    <div class="hero-num"><b>${exp.toFixed(1)}</b><span>of ${s.length} slips expected to land today</span></div>
+    <div class="scale" role="img" aria-label="Each slip placed on a 0 to 100 percent scale of landing">
+      <div class="rail"></div>${ticks}
+      <div class="ends"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
+    </div>
+    <p class="fine">Each number on the scale is a slip, placed by the model's chance that every leg wins. Longer slips pay more but land less often. These are estimates, and in testing the model ran a little high in the 60–70% range.</p>
+  </section>
+  <div class="bar"><span class="lbl">Sort by</span>
+    <div class="seg" role="group" aria-label="Sort slips">
+      <button data-s="value" aria-pressed="${sortBy=='value'}">Best value</button>
+      <button data-s="chance" aria-pressed="${sortBy=='chance'}">Most likely</button>
+      <button data-s="legs" aria-pressed="${sortBy=='legs'}">Fewest legs</button>
+    </div></div>
+  <div class="tickets">${order.map(x=>ticket(x,idx.get(x))).join('')}</div>`;
+  document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{sortBy=b.dataset.s;slips()});
+}
+function ticket(x,i){
+  const legs=x.legs.map(l=>`<div class="leg"><div class="who"><strong>${esc(l.player)}</strong>
+    <span class="pick"><span class="${l.side=='OVER'?'over':'under'}">${l.side=='OVER'?'Over':'Under'}</span> ${l.line} ${MK[l.market]||l.market}</span></div>
+    <div class="meta"><span>${odds(l.odds)} at ${esc(l.book)}</span><span>model ${l.proj}</span><span>edge ${pct(l.edge)}</span></div>
+    ${l.why?`<div class="why">${esc(l.why)}</div>`:''}</div>`).join('');
+  return `<article class="ticket"><div class="main">
+    <div class="head"><span>Slip ${i} · ${x.n} ${x.n==1?'leg':'legs'}</span><b>pays ${x.pays}x</b></div>${legs}</div>
+    <div class="stub"><div class="ring" style="--p:${pc0(x.p_hit)};--c:${col(x.p_hit)}"><span>${pc0(x.p_hit)}<small>%</small></span></div>
+      <div class="cap">chance it lands</div><div class="pay">value ${x.ev>=0?'+':''}${(x.ev*100).toFixed(0)}%</div></div></article>`;
+}
+
+function board(){
+  const mk=['all',...Object.keys(MK)];
+  $('#view').innerHTML=`<div class="panel"><div class="filters">
+    <label>Market <select id="fm">${mk.map(m=>`<option value="${m}">${MK[m]||'All'}</option>`).join('')}</select></label>
+    <label>Min edge % <input id="fe" type="number" value="3"></label>
+    <label><input id="fo" type="checkbox" checked> Only props that passed every check</label></div>
+    <div class="scroll"><table id="bt"></table></div></div>`;
+  ['fm','fe','fo'].forEach(i=>$('#'+i).oninput=fill);fill();
+}
+function fill(){
+  const m=$('#fm').value,e=+$('#fe').value/100,o=$('#fo').checked;
+  const rows=(o?D.eligible:D.board).filter(r=>(m=='all'||r.market==m)&&r.edge>=e);
+  $('#bt').innerHTML='<tr><th>Player</th><th>Market</th><th>Pick</th><th>Odds</th><th>Model</th><th>Chance</th><th>Book says</th><th>Edge</th><th>Value</th><th>Why</th><th>Notes</th></tr>'+
+  (rows.map(r=>`<tr><td>${esc(r.player)}</td><td>${MK[r.market]}</td><td>${r.side=='OVER'?'Over':'Under'} ${r.line}</td><td>${odds(r.odds)} ${esc(r.book)}</td><td>${r.proj}</td><td>${pct(r.p_model)}</td><td>${pct(r.p_market)}</td><td class="pos">${pct(r.edge)}</td><td>${pct(r.ev)}</td><td>${esc(r.why||'')}</td><td class="warn">${esc([r.flag,r.corr].filter(Boolean).join(' · '))}</td></tr>`).join('')||'<tr><td>No rows</td></tr>');
+}
+
+function teams(){
+  const k=['team','pace','pace#','ORtg','ORtg#','DRtg','DRtg#','PTSa','PTSa#','REBa','REBa#','ASTa','ASTa#','3PMa','3PMa#'];
+  const rk=v=>`<span class="rk" style="background:hsl(${150-130*(v-1)/29} 60% 55%)">${v}</span>`;
+  $('#view').innerHTML=`<div class="panel"><p class="fine" style="margin-bottom:10px">Teams playing today. A ranked cell shows 1 to 30: 1 is the best defense, best offense or fastest pace. "a" means allowed per game.</p>
+  <div class="scroll"><table><tr>${k.map(c=>`<th>${c}</th>`).join('')}</tr>`+
+  D.ranks.map(r=>`<tr>${k.map(c=>`<td>${c.endsWith('#')?rk(r[c]):r[c]}</td>`).join('')}</tr>`).join('')+'</table></div></div>';
+}
+
+function results(){
+  const R=D.results;
+  if(!R.graded){$('#view').innerHTML=`<div class="empty">No graded picks yet (${R.logged||0} logged). Results appear the morning after the games. Wait for a few hundred graded picks before judging the model.</div>`;return}
+  const T=(t,a)=>`<div class="panel"><h3>${t}</h3><div class="scroll"><table><tr><th></th><th>Picks</th><th>Won</th><th>Model said</th><th>Units</th><th>Return</th></tr>`+(a||[]).map(r=>`<tr><td>${esc(r.group)}</td><td>${r.picks}</td><td>${pct(r.hit)}</td><td>${pct(r.avg_p)}</td><td class="${r.units>=0?'pos':'neg'}">${r.units.toFixed(1)}</td><td class="${r.roi>=0?'pos':'neg'}">${pct(r.roi)}</td></tr>`).join('')+'</table></div></div>';
+  $('#view').innerHTML=`<p class="fine" style="margin-bottom:12px">${R.graded} graded, ${R.pending} waiting. One unit per pick.</p>`+T('All picks',R.all)+T('Passed every check (what goes on slips)',R.eligible)+T('By market',R.market)+T('By what drove the pick',R.lens)+T('By side',R.side);
+}
+
+function info(){
+  $('#view').innerHTML=`<p class="note">Picks only. This never places bets. A big edge, above about 12%, often means the books know something the model does not, like a lineup change. Check the news before trusting it.</p>
+  <div class="panel"><h3>Injury and lineup notes</h3><div class="fine">${D.injuries.length?D.injuries.map(esc).join('<br>'):'None today.'}</div></div>
+  <div class="panel"><h3>Left off slips for playing time</h3><div class="fine">${D.dropped.length?D.dropped.map(d=>`${esc(d.player)} ${d.side} ${d.line}: ${esc(d.why)}`).join('<br>'):'None.'}</div></div>`;
+}
 </script></body></html>
