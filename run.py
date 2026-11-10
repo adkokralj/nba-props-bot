@@ -11,7 +11,7 @@ import zlib
 import numpy as np
 import pandas as pd
 from config import ModelCfg, EdgeCfg, ParlayCfg
-from data import load_game_logs_nba_api, load_lines, make_demo
+from data import load_game_logs, load_lines, make_demo
 from teams import classify_archetypes, league_rates, TeamTables
 from model import project_player
 from sim import pooled_corr, simulate, why_label
@@ -62,7 +62,7 @@ def main():
     if a.demo:
         logs, lines, as_of = make_demo()
     else:
-        logs = load_game_logs_nba_api()
+        logs = load_game_logs()
         lines = load_lines(a.lines, logs)
         as_of = lines["game_date"].min().normalize()
 
