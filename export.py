@@ -45,20 +45,23 @@ def _results():
     return out
 
 
-def write(path, as_of, legs, ok, slips, ranks, dropped, notes):
+def write(path, as_of, legs, ok, slips, ranks, dropped, notes, safe=None):
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
-    sl = []
-    for s in slips:
-        sl.append(dict(n=s["n"], p_hit=round(s["p_hit"], 4), pays=round(s["dec"], 2), ev=round(s["ev"], 4),
-                       legs=[{k: (l[k] if not isinstance(l[k], (np.floating, np.integer)) else float(l[k]))
-                              for k in ("player", "market", "side", "line", "odds", "book", "proj", "edge", "why")}
-                             for l in s["legs"]]))
+    def _sl(slist):
+        out = []
+        for s in slist:
+            out.append(dict(n=s["n"], p_hit=round(s["p_hit"], 4), pays=round(s["dec"], 2), ev=round(s["ev"], 4),
+                            legs=[{k: (l[k] if not isinstance(l[k], (np.floating, np.integer)) else float(l[k]))
+                                   for k in ("player", "market", "side", "line", "odds", "book", "proj", "edge", "why")}
+                                  for l in s["legs"]]))
+        return out
+    sl = _sl(slips)
     data = dict(
         updated=dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
         game_day=str(pd.Timestamp(as_of).date()),
         n_legs=int(len(legs)), n_eligible=int(len(ok)),
         board=_clean(legs.head(150), LEG_COLS), eligible=_clean(ok.head(150), LEG_COLS),
-        slips=sl, injuries=list(notes),
+        slips=sl, safe_slips=_sl(safe or []), injuries=list(notes),
         dropped=[dict(player=p, side=s, line=float(l), why=w) for p, s, l, w in dropped[:60]],
         ranks=json.loads(ranks.reset_index().to_json(orient="records")) if len(ranks) else [],
         results=_results())
