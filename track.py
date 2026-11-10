@@ -35,7 +35,7 @@ def log_picks(legs, ok, slips, matchup_on=True):
     for i, s in enumerate(slips):
         rows.append(dict(logged_at=now, slip=f"{now}#{i+1}", n=s["n"], p_hit=s["p_hit"], dec=s["dec"],
                          legs=" | ".join(f"{l['player']}|{l['market']}|{l['side']}|{l['line']}" for l in s["legs"]),
-                         result="pending"))
+                         kind=s.get("kind", "main"), result="pending"))
     if rows:
         o = _read(SLIPS)
         pd.concat([o, pd.DataFrame(rows)]).to_csv(SLIPS, index=False)
