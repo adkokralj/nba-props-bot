@@ -55,12 +55,12 @@ def _actual(logs, row):
 
 
 def grade():
-    from data import load_game_logs_nba_api
+    from data import load_game_logs
     p = _read(PICKS)
     if p.empty:
         print("No picks logged yet. Run the bot first.")
         return
-    logs = load_game_logs_nba_api()
+    logs = load_game_logs()
     today = pd.Timestamp(dt.date.today())
     for i in p.index[(p["result"] == "pending") & (pd.to_datetime(p["game_date"]) < today)]:
         a = _actual(logs, p.loc[i])
