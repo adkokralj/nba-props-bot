@@ -100,6 +100,53 @@ input[type=number]{width:70px}
 .rk{display:inline-block;min-width:26px;text-align:center;border-radius:6px;padding:1px 6px;font-weight:600;color:#06141b}
 .empty{color:var(--mute);padding:24px 4px}
 .note{border-left:3px solid var(--amber);padding:2px 0 2px 12px;color:var(--mute);font-size:14px;margin:0 0 20px;max-width:70ch}
+
+/* ---- v3 polish ---- */
+body{background:
+  radial-gradient(900px 480px at 85% -120px,rgba(255,122,61,.20),transparent 70%),
+  radial-gradient(700px 400px at 0% 0%,rgba(74,163,255,.10),transparent 70%),
+  var(--floor);position:relative;min-height:100vh}
+body:before{content:"";position:absolute;inset:0 0 auto 0;height:760px;pointer-events:none;opacity:.9;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 760' fill='none' stroke='%23ffffff' stroke-opacity='.055' stroke-width='3'><rect x='40' y='-40' width='920' height='780'/><rect x='360' y='-40' width='280' height='380'/><circle cx='500' cy='340' r='140'/><path d='M130 -40 V150 A400 400 0 0 0 870 150 V-40'/><circle cx='500' cy='20' r='40'/></svg>") center top/cover no-repeat;
+  -webkit-mask-image:linear-gradient(#000 40%,transparent);mask-image:linear-gradient(#000 40%,transparent)}
+.wrap{position:relative}
+.brand{font-size:36px;display:flex;align-items:center;gap:10px}
+.brand:before{content:"";width:22px;height:22px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#ffa06b,var(--ball) 60%,#c4511b);box-shadow:0 0 18px rgba(255,122,61,.55)}
+.hero{background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.10);
+  border-radius:20px;padding:22px 20px 16px;backdrop-filter:blur(6px);box-shadow:0 18px 50px rgba(0,0,0,.35)}
+.hero-num b{font-size:96px;text-shadow:0 0 38px rgba(255,122,61,.55)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.09);font-size:13px;color:var(--txt)}
+.chip b{font:700 16px/1 var(--disp)}
+.sec{font:700 24px/1 var(--disp);margin:30px 0 12px;display:flex;align-items:center;gap:10px}
+.sec:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+.ticket{box-shadow:0 14px 34px rgba(0,0,0,.40);transition:transform .15s}
+.ticket:hover{transform:translateY(-2px)}
+.ticket .band{position:absolute;left:0;right:0;top:0;height:5px;background:var(--c)}
+.avatar{width:38px;height:38px;border-radius:50%;flex:none;display:grid;place-items:center;font:700 15px/1 var(--disp);color:#fff;letter-spacing:.02em;
+  background:var(--mc);box-shadow:inset 0 -3px 6px rgba(0,0,0,.22)}
+.legrow{display:flex;gap:11px;align-items:center}
+.legbody{flex:1;min-width:0}
+.mk{display:inline-block;padding:2px 8px;border-radius:6px;font:700 13px/1.3 var(--disp);letter-spacing:.04em;color:#fff;background:var(--mc);vertical-align:1px}
+.dir{font-size:12px;margin-right:2px}
+.edgebar{height:5px;border-radius:3px;background:#d6dcd5;overflow:hidden;margin-top:6px;max-width:220px}
+.edgebar i{display:block;height:100%;background:linear-gradient(90deg,#f2b84b,#27c28a);border-radius:3px}
+.ring{width:92px;height:92px;box-shadow:0 0 0 5px rgba(0,0,0,.04)}
+.ring span{width:72px;height:72px;font-size:32px}
+@media(max-width:380px){.ring{width:76px;height:76px}.ring span{width:58px;height:58px;font-size:24px}}
+.stub .cap{font-weight:500}
+.stub .pay{background:var(--ink);color:#fff;border-radius:999px;padding:5px 10px;white-space:nowrap;font-size:14px}
+/* best singles */
+.singles{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 14px;scroll-snap-type:x proximity;scrollbar-width:thin}
+.single{flex:0 0 250px;scroll-snap-align:start;background:var(--floor2);border:1px solid var(--line);border-top:4px solid var(--mc);border-radius:14px;padding:12px 14px}
+.single .n{font-weight:600}
+.single .p{font:700 21px/1.1 var(--disp);white-space:nowrap;margin:2px 0 6px}
+.single .m{color:var(--mute);font-size:13px;display:flex;justify-content:space-between}
+.single .e{font:700 20px/1 var(--disp);color:var(--good)}
+.tabs button{font-size:18px}
+.tabs button[aria-selected=true]{color:#fff;text-shadow:0 0 14px rgba(255,122,61,.6)}
+@media(prefers-reduced-motion:no-preference){.hero{animation:rise .5s ease-out both}@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}}
 </style></head>
 <body><div class="wrap">
 <div class="top"><h1 class="brand">Props Board</h1><div class="when" id="meta">Loading…</div></div>
@@ -113,6 +160,8 @@ const MK={pts:'PTS',reb:'REB',ast:'AST',fg3m:'3PM',pra:'PRA',ra:'RA'};
 const pct=x=>(x*100).toFixed(1)+'%', pc0=x=>Math.round(x*100);
 const odds=o=>o>0?'+'+o:o;
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const MC={pts:'#e8631f',reb:'#2f86e0',ast:'#8b5cf6',fg3m:'#13a06f',pra:'#c8861a',ra:'#0fa3a3'};
+const ini=n=>String(n).split(' ').filter(Boolean).map(w=>w[0]).slice(0,2).join('').toUpperCase();
 const hue=p=>20+130*Math.min(1,Math.max(0,p));          // low chance = orange, high = green
 const col=p=>`hsl(${hue(p)} 75% 45%)`;
 
@@ -143,6 +192,7 @@ function slips(){
   $('#view').innerHTML=`
   <section class="hero" aria-label="Chance slips land">
     <div class="hero-num"><b>${exp.toFixed(1)}</b><span>of ${s.length} slips expected to land today</span></div>
+    <div class="chips"><span class="chip"><b>${D.n_eligible}</b> props passed every check</span><span class="chip"><b>${(s.reduce((a,x)=>a+x.n,0)/s.length).toFixed(1)}</b> legs per slip on average</span><span class="chip">Best chance <b>${pc0(Math.max(...s.map(x=>x.p_hit)))}%</b></span></div>
     <div class="scale" role="img" aria-label="Each slip placed on a 0 to 100 percent scale of landing">
       <div class="rail"></div>${ticks}
       <div class="ends"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
@@ -155,18 +205,29 @@ function slips(){
       <button data-s="chance" aria-pressed="${sortBy=='chance'}">Most likely</button>
       <button data-s="legs" aria-pressed="${sortBy=='legs'}">Fewest legs</button>
     </div></div>
-  <div class="tickets">${order.map(x=>ticket(x,idx.get(x))).join('')}</div>`;
+  <h2 class="sec">Today's slips</h2><div class="tickets">${order.map(x=>ticket(x,idx.get(x))).join('')}</div>${singles()}`;
   document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{sortBy=b.dataset.s;slips()});
 }
 function ticket(x,i){
-  const legs=x.legs.map(l=>`<div class="leg"><div class="who"><strong>${esc(l.player)}</strong>
-    <span class="pick"><span class="${l.side=='OVER'?'over':'under'}">${l.side=='OVER'?'Over':'Under'}</span> ${l.line} ${MK[l.market]||l.market}</span></div>
+  const legs=x.legs.map(l=>{const mc=MC[l.market]||'#556',up=l.side=='OVER';
+    return `<div class="leg"><div class="legrow"><div class="avatar" style="--mc:${mc}">${esc(ini(l.player))}</div>
+    <div class="legbody"><div class="who"><strong>${esc(l.player)}</strong>
+    <span class="pick"><span class="${up?'over':'under'}"><span class="dir">${up?'\u25b2':'\u25bc'}</span>${up?'Over':'Under'}</span> ${l.line} <span class="mk" style="--mc:${mc}">${MK[l.market]||l.market}</span></span></div>
     <div class="meta"><span>${odds(l.odds)} at ${esc(l.book)}</span><span>model ${l.proj}</span><span>edge ${pct(l.edge)}</span></div>
-    ${l.why?`<div class="why">${esc(l.why)}</div>`:''}</div>`).join('');
-  return `<article class="ticket"><div class="main">
-    <div class="head"><span>Slip ${i} · ${x.n} ${x.n==1?'leg':'legs'}</span><b>pays ${x.pays}x</b></div>${legs}</div>
+    <div class="edgebar" title="Edge ${pct(l.edge)}"><i style="width:${Math.min(100,l.edge/0.15*100).toFixed(0)}%"></i></div>
+    ${l.why?`<div class="why">${esc(l.why)}</div>`:''}</div></div></div>`}).join('');
+  return `<article class="ticket" style="--c:${col(x.p_hit)}"><div class="band"></div><div class="main">
+    <div class="head"><span>Slip ${i} \u00b7 ${x.n} ${x.n==1?'leg':'legs'}</span><b>pays ${x.pays}x</b></div>${legs}</div>
     <div class="stub"><div class="ring" style="--p:${pc0(x.p_hit)};--c:${col(x.p_hit)}"><span>${pc0(x.p_hit)}<small>%</small></span></div>
       <div class="cap">chance it lands</div><div class="pay">value ${x.ev>=0?'+':''}${(x.ev*100).toFixed(0)}%</div></div></article>`;
+}
+function singles(){
+  const top=[...D.eligible].sort((a,b)=>b.edge-a.edge).slice(0,8);
+  if(!top.length)return '';
+  return `<h2 class="sec">Biggest single edges</h2><div class="singles">`+top.map(r=>`<div class="single" style="--mc:${MC[r.market]||'#556'}">
+    <div class="n">${esc(r.player)}</div><div class="p">${r.side=='OVER'?'\u25b2 Over':'\u25bc Under'} ${r.line} ${MK[r.market]}</div>
+    <div class="m"><span>${odds(r.odds)} at ${esc(r.book)}</span><span>chance ${pc0(r.p_model)}%</span></div>
+    <div class="e">+${(r.edge*100).toFixed(1)}% edge</div></div>`).join('')+`</div>`;
 }
 
 function board(){
