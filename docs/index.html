@@ -155,7 +155,7 @@ body:before{content:"";position:absolute;inset:0 0 auto 0;height:760px;pointer-e
 </div>
 <script>
 const $=s=>document.querySelector(s);
-let D=null,tab='slips',sortBy='value';
+let D=null,tab='slips',sortBy='value',kind='value';
 const MK={pts:'PTS',reb:'REB',ast:'AST',fg3m:'3PM',pra:'PRA',ra:'RA'};
 const pct=x=>(x*100).toFixed(1)+'%', pc0=x=>Math.round(x*100);
 const odds=o=>o>0?'+'+o:o;
@@ -179,7 +179,9 @@ function tabs(){
 function draw(){tabs();if(!D){$('#view').innerHTML='';return}({slips,board,teams,results,info})[tab]()}
 
 function slips(){
-  const s=[...D.slips];
+  const hasSafe=!!(D.safe_slips&&D.safe_slips.length);
+  if(kind=='safe'&&!hasSafe)kind='value';
+  const s=[...(kind=='safe'?D.safe_slips:D.slips)];
   if(!s.length){$('#view').innerHTML='<div class="empty">No slips today. Nothing passed every check.</div>';return}
   const exp=s.reduce((a,x)=>a+x.p_hit,0);
   const order=sortBy=='chance'?[...s].sort((a,b)=>b.p_hit-a.p_hit):sortBy=='legs'?[...s].sort((a,b)=>a.n-b.n||b.p_hit-a.p_hit):s;
@@ -199,14 +201,16 @@ function slips(){
     </div>
     <p class="fine">Each number on the scale is a slip, placed by the model's chance that every leg wins. Longer slips pay more but land less often. These are estimates, and in testing the model ran a little high in the 60–70% range.</p>
   </section>
+  ${hasSafe?`<div class="bar"><span class="lbl">Show</span><div class="seg" role="group" aria-label="Slip type"><button data-k="value" aria-pressed="${kind=='value'}">Value slips</button><button data-k="safe" aria-pressed="${kind=='safe'}">Safer slips</button></div></div>`:''}
   <div class="bar"><span class="lbl">Sort by</span>
     <div class="seg" role="group" aria-label="Sort slips">
       <button data-s="value" aria-pressed="${sortBy=='value'}">Best value</button>
       <button data-s="chance" aria-pressed="${sortBy=='chance'}">Most likely</button>
       <button data-s="legs" aria-pressed="${sortBy=='legs'}">Fewest legs</button>
     </div></div>
-  <h2 class="sec">Today's slips</h2><div class="tickets">${order.map(x=>ticket(x,idx.get(x))).join('')}</div>${singles()}`;
-  document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{sortBy=b.dataset.s;slips()});
+  <h2 class="sec">${kind=='safe'?'Safer slips':'Today\'s slips'}</h2>${kind=='safe'?'<p class="fine" style="margin:-4px 0 14px">Built from the legs most likely to win, with at most two legs each. They land more often but pay less.</p>':''}<div class="tickets">${order.map(x=>ticket(x,idx.get(x))).join('')}</div>${singles()}`;
+  document.querySelectorAll('.seg button[data-s]').forEach(b=>b.onclick=()=>{sortBy=b.dataset.s;slips()});
+  document.querySelectorAll('.seg button[data-k]').forEach(b=>b.onclick=()=>{kind=b.dataset.k;sortBy=kind=='safe'?'chance':'value';slips()});
 }
 function ticket(x,i){
   const legs=x.legs.map(l=>{const mc=MC[l.market]||'#556',up=l.side=='OVER';
