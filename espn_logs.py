@@ -83,18 +83,24 @@ def parse_summary(js, game_date):
     return rows
 
 
-def _events(d0, d1):
+def _day(d):
+    try:
+        js = _get(f"{BASE}/scoreboard", {"dates": f"{d:%Y%m%d}"})
+    except Exception as ex:
+        print(f"[espn] scoreboard {d} failed: {type(ex).__name__}")
+        return []
     out = []
-    d = d0
-    while d <= d1:
-        e = min(d + dt.timedelta(days=20), d1)
-        js = _get(f"{BASE}/scoreboard", {"dates": f"{d:%Y%m%d}-{e:%Y%m%d}", "limit": 500})
-        for ev in js.get("events", []):
-            if ev.get("status", {}).get("type", {}).get("completed"):
-                t = pd.Timestamp(ev["date"]).tz_convert(None) - pd.Timedelta(hours=8)  # US date
-                out.append((str(ev["id"]), t.normalize()))
-        d = e + dt.timedelta(days=1)
+    for ev in js.get("events", []):
+        if ev.get("status", {}).get("type", {}).get("completed"):
+            t = pd.Timestamp(ev["date"]).tz_convert(None) - pd.Timedelta(hours=8)  # US date
+            out.append((str(ev["id"]), t.normalize()))
     return out
+
+
+def _events(d0, d1):
+    days = [d0 + dt.timedelta(days=i) for i in range((d1 - d0).days + 1)]
+    with ThreadPoolExecutor(10) as ex:
+        return [e for part in ex.map(_day, days) for e in part]
 
 
 def load_game_logs_espn(cache=CACHE):
