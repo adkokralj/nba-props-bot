@@ -40,6 +40,19 @@ def load_game_logs_nba_api(seasons=("2025-26", "2026-27")) -> pd.DataFrame:
     return finalize_logs(pd.concat(parts, ignore_index=True))
 
 
+def load_game_logs() -> pd.DataFrame:
+    """nba_api first (works from home); falls back to ESPN when stats.nba.com is unreachable.
+    Set LOGS_SOURCE=espn to skip nba_api (used on GitHub, where stats.nba.com times out)."""
+    import os
+    if os.environ.get("LOGS_SOURCE", "").lower() != "espn":
+        try:
+            return load_game_logs_nba_api()
+        except Exception as e:
+            print(f"[data] nba_api failed ({type(e).__name__}); using ESPN instead")
+    from espn_logs import load_game_logs_espn
+    return finalize_logs(load_game_logs_espn())
+
+
 def finalize_logs(df: pd.DataFrame) -> pd.DataFrame:
     df = df[df["minutes"] > 0].sort_values(["player", "game_date"]).copy()
     df["rest_days"] = df.groupby("player")["game_date"].diff().dt.days.fillna(3)
