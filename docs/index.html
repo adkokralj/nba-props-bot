@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NBA Props Board</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#14171c;--mute:#667085;--line:#e4e7ec;--acc:#1f6feb;--good:#12805c;--bad:#c0392b;--warn:#b7791f}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1216;--card:#171b21;--ink:#eceff4;--mute:#9aa4b2;--line:#262c35;--acc:#5b9dff;--good:#3ecf9a;--bad:#ff7a6b;--warn:#e5b44f}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,system-ui,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:16px}
+h1{font-size:20px;margin:4px 0}.sub{color:var(--mute);font-size:13px}
+.tabs{display:flex;gap:6px;margin:14px 0;overflow-x:auto}
+.tabs button{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:999px;font:inherit;cursor:pointer;white-space:nowrap}
+.tabs button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+select,input{font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+th{color:var(--mute);font-weight:600;position:sticky;top:0;background:var(--card)}
+.scroll{overflow-x:auto}.pos{color:var(--good);font-weight:600}.neg{color:var(--bad)}
+.tag{font-size:12px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--mute)}
+.warn{color:var(--warn)}.leg{padding:6px 0;border-top:1px solid var(--line)}.leg:first-of-type{border-top:0}
+.slipHead{display:flex;justify-content:space-between;gap:8px;font-weight:600;margin-bottom:4px}
+.note{background:var(--card);border-left:3px solid var(--warn);padding:10px 12px;border-radius:8px;margin-bottom:12px;font-size:13.5px}
+</style></head><body><div class="wrap">
+<h1>NBA Props Board</h1><div class="sub" id="meta">Loading…</div>
+<div class="note">Picks only — this never places bets. Big edges (above ~12%) usually mean the books know something the model doesn't (lineup, minutes, news). Treat them as "check first". Results below show whether the model really beats the market.</div>
+<div class="tabs" id="tabs"></div><div id="view"></div></div>
+<script>
+const $=s=>document.querySelector(s);let D=null,tab='slips';
+const pct=x=>(x*100).toFixed(1)+'%',MK={pts:'PTS',reb:'REB',ast:'AST',fg3m:'3PM',pra:'PRA',ra:'RA'};
+const odds=o=>o>0?'+'+o:o;
+fetch('data.json?'+Date.now()).then(r=>r.json()).then(d=>{D=d;
+ $('#meta').textContent=`Game day ${d.game_day} · updated ${d.updated} · ${d.n_legs} props priced, ${d.n_eligible} passed every rule`;
+ draw()}).catch(()=>{$('#meta').textContent='No data yet — the first daily run has not finished.'});
+function tabs(){const t=[['slips','Slips'],['board','Board'],['teams','Team ranks'],['results','Results'],['info','Notes']];
+ $('#tabs').innerHTML=t.map(([k,l])=>`<button class="${k==tab?'on':''}" onclick="tab='${k}';draw()">${l}</button>`).join('')}
+function draw(){tabs();if(!D)return;({slips,board,teams,results,info})[tab]()}
+function slips(){const s=D.slips;if(!s.length){$('#view').innerHTML='<div class="card">No slips today — nothing passed every rule.</div>';return}
+ const avg=(s.reduce((a,x)=>a+x.n,0)/s.length).toFixed(2);
+ $('#view').innerHTML=`<div class="sub" style="margin-bottom:8px">${s.length} slips · average ${avg} legs</div>`+s.map(x=>`<div class="card"><div class="slipHead"><span>${x.n}-leg</span><span>hit ${pct(x.p_hit)} · pays ${x.pays}x · EV <span class="pos">${(x.ev*100).toFixed(0)}%</span></span></div>`+
+ x.legs.map(l=>`<div class="leg"><b>${l.player}</b> ${MK[l.market]} ${l.side} ${l.line} <span class="tag">${odds(l.odds)} ${l.book}</span><div class="sub">proj ${l.proj} · edge ${pct(l.edge)} · why: ${l.why}</div></div>`).join('')+'</div>').join('')}
+function board(){const mk=['all',...Object.keys(MK)];
+ $('#view').innerHTML=`<div class="card"><div class="row"><label>Market <select id="fm">${mk.map(m=>`<option value="${m}">${MK[m]||'All'}</option>`).join('')}</select></label>
+ <label>Min edge % <input id="fe" type="number" value="3" style="width:70px"></label>
+ <label><input id="fo" type="checkbox" checked> passed all rules only</label></div><div class="scroll"><table id="bt"></table></div></div>`;
+ ['fm','fe','fo'].forEach(i=>$('#'+i).oninput=fill);fill()}
+function fill(){const m=$('#fm').value,e=+$('#fe').value/100,o=$('#fo').checked;
+ let rows=(o?D.eligible:D.board).filter(r=>(m=='all'||r.market==m)&&r.edge>=e);
+ $('#bt').innerHTML='<tr><th>Player</th><th>Mkt</th><th>Pick</th><th>Odds</th><th>Proj</th><th>Model</th><th>Market</th><th>Edge</th><th>EV</th><th>Why</th><th>Notes</th></tr>'+
+ rows.map(r=>`<tr><td>${r.player}</td><td>${MK[r.market]}</td><td>${r.side} ${r.line}</td><td>${odds(r.odds)} ${r.book}</td><td>${r.proj}</td><td>${pct(r.p_model)}</td><td>${pct(r.p_market)}</td><td class="pos">${pct(r.edge)}</td><td>${pct(r.ev)}</td><td>${r.why||''}</td><td class="warn">${[r.flag,r.corr].filter(Boolean).join(' · ')}</td></tr>`).join('')||'<tr><td>No rows</td></tr>'}
+function teams(){const k=['team','pace','pace#','ORtg','ORtg#','DRtg','DRtg#','PTSa','PTSa#','REBa','REBa#','ASTa','ASTa#','3PMa','3PMa#'];
+ $('#view').innerHTML=`<div class="card"><div class="sub">Tonight's teams. "#" = rank, 1 = best defence / best offence / fastest. "a" = allowed per game.</div><div class="scroll"><table><tr>${k.map(c=>`<th>${c}</th>`).join('')}</tr>`+D.ranks.map(r=>`<tr>${k.map(c=>`<td>${r[c]}</td>`).join('')}</tr>`).join('')+'</table></div></div>'}
+function results(){const R=D.results;if(!R.graded){$('#view').innerHTML=`<div class="card">No graded picks yet (${R.logged||0} logged). Results appear the morning after games finish. Judge the model only after a few hundred graded picks.</div>`;return}
+ const T=(t,a)=>`<div class="card"><b>${t}</b><div class="scroll"><table><tr><th></th><th>Picks</th><th>Hit rate</th><th>Model said</th><th>Units</th><th>ROI</th></tr>`+(a||[]).map(r=>`<tr><td>${r.group}</td><td>${r.picks}</td><td>${pct(r.hit)}</td><td>${pct(r.avg_p)}</td><td class="${r.units>=0?'pos':'neg'}">${r.units.toFixed(1)}</td><td class="${r.roi>=0?'pos':'neg'}">${pct(r.roi)}</td></tr>`).join('')+'</table></div></div>';
+ $('#view').innerHTML=`<div class="sub" style="margin-bottom:8px">${R.graded} graded · ${R.pending} pending · 1 unit per pick</div>`+T('All picks',R.all)+T('Passed every rule (what goes on slips)',R.eligible)+T('By market',R.market)+T('By lens that drove the pick',R.lens)+T('By side',R.side)}
+function info(){$('#view').innerHTML=`<div class="card"><b>Injury / lineup notes</b><div class="sub">${D.injuries.length?D.injuries.join('<br>'):'None today.'}</div></div>
+ <div class="card"><b>Props with an edge but kept off slips (playing-time gate)</b><div class="sub">${D.dropped.length?D.dropped.map(d=>`${d.player} ${d.side} ${d.line}: ${d.why}`).join('<br>'):'None.'}</div></div>`}
+</script></body></html>
