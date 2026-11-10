@@ -17,6 +17,7 @@ from model import project_player
 from sim import pooled_corr, simulate, why_label
 from edge import build_legs, eligible, dropped_by_minutes
 from parlay import build_slips, format_slip
+from config import ParlayCfg as _PCfg
 from injuries import load_injuries, apply_status, teammate_multipliers
 import track
 
@@ -125,15 +126,25 @@ def main():
             print(f"   - {p} {side} {line}: {why}")
     print(f"\n{len(ok)} eligible legs -> building slips (mostly 1-3 legs, 4-5 rare)\n")
     slips = build_slips(ok)
+    safe = build_slips(ok, _PCfg(n_slips=6, leg_mix={1: 0.5, 2: 0.5}, max_legs=2, pool_size=10),
+                       sort_by="p_hit")
+    for s in slips:
+        s["kind"] = "main"
+    for s in safe:
+        s["kind"] = "safe"
     for s in slips:
         print(format_slip(s), "\n")
     if slips:
         print(f"avg legs per slip: {sum(s['n'] for s in slips) / len(slips):.2f}")
+    if safe:
+        print("\n--- safer slips (highest chance to hit first, smaller payouts) ---\n")
+        for s in safe:
+            print(format_slip(s), "\n")
     if not a.demo and not a.no_log:
-        track.log_picks(legs, ok, slips, matchup_on=not a.no_matchup)
+        track.log_picks(legs, ok, slips + safe, matchup_on=not a.no_matchup)
     if a.export:
         import export
-        export.write(a.export, as_of, legs, ok, slips, rk, dropped, notes if inj_path else [])
+        export.write(a.export, as_of, legs, ok, slips, rk, dropped, notes if inj_path else [], safe=safe)
 
 
 if __name__ == "__main__":
