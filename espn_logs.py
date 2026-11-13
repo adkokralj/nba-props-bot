@@ -91,6 +91,10 @@ def _day(d):
         return []
     out = []
     for ev in js.get("events", []):
+        # ESPN season type: 1 = preseason (skip: short minutes), 2 = regular, 3 = playoffs, 5 = play-in
+        stype = ev.get("season", {}).get("type")
+        if stype == 1:
+            continue
         if ev.get("status", {}).get("type", {}).get("completed"):
             t = pd.Timestamp(ev["date"]).tz_convert(None) - pd.Timedelta(hours=8)  # US date
             out.append((str(ev["id"]), t.normalize()))
@@ -105,6 +109,9 @@ def _events(d0, d1):
 
 def load_game_logs_espn(cache=CACHE):
     old = pd.read_csv(cache, parse_dates=["game_date"]) if os.path.exists(cache) else pd.DataFrame()
+    if len(old):   # one-time cleanup: drop preseason games that an earlier version cached
+        pre = (old["game_date"] >= "2026-09-01") & (old["game_date"] < "2026-10-20")
+        old = old[~pre]
     have = set(old["game_id"].astype(str)) if len(old) else set()
     last = old["game_date"].max().date() - dt.timedelta(days=2) if len(old) else START
     today = dt.date.today()
