@@ -1,96 +1,53 @@
 player,team,status,reason,game_date,report_time_et
-Michael Ajayi,CHA,Out,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Grayson Allen,CHA,Out,Concussion Protocol,11/20/2026,2026-11-20 11:45
-Kylan Boswell,CHA,Out,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Kon Knueppel,CHA,Out,Injury/Illness - Left Hamstring Strain,11/20/2026,2026-11-20 11:45
-Dennis Schroder,CHA,Out,Injury/Illness - Left Hamstring Strain,11/20/2026,2026-11-20 11:45
-Grant Williams,CHA,Out,Injury/Illness - Right Hamstring Injury Management,11/20/2026,2026-11-20 11:45
-Rafael Castro,ATL,Questionable,G League - Two-Way,11/20/2026,2026-11-20 11:45
-RayJ Dennis,ATL,Questionable,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Kingston Flemings,ATL,Questionable,Injury/Illness - Lumbar Strain,11/20/2026,2026-11-20 11:45
-Mouhamed Gueye,ATL,Out,Injury/Illness - Left Foot Fracture,11/20/2026,2026-11-20 11:45
-Jock Landale,ATL,Out,Injury/Illness - Right Great Toe Sprain,11/20/2026,2026-11-20 11:45
-CJ McCollum,ATL,Out,Injury/Illness - Left Calf Strain,11/20/2026,2026-11-20 11:45
-Asa Newell,ATL,Out,Injury/Illness - Left Great Toe Surgery,11/20/2026,2026-11-20 11:45
-Henri Veesaar,ATL,Out,Injury/Illness - Right ACL Tear,11/20/2026,2026-11-20 11:45
-Jalen Wilson,ATL,Questionable,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Johnny Furphy,IND,Out,Injury/Illness - Right ACL Repair / Surgery,11/20/2026,2026-11-20 11:45
-Tyrese Haliburton,IND,Out,Injury/Illness - Left Hamstring Strain,11/20/2026,2026-11-20 11:45
-T.J. McConnell,IND,Probable,Injury/Illness - Right Hamstring Strain,11/20/2026,2026-11-20 11:45
-Andrew Nembhard,IND,Questionable,Injury/Illness - Left Hip Sprain,11/20/2026,2026-11-20 11:45
-Ben Sheppard,IND,Out,Injury/Illness - Left Meniscus Surgery,11/20/2026,2026-11-20 11:45
-Braden Smith,IND,Questionable,Injury/Illness - Right Ankle Sprain,11/20/2026,2026-11-20 11:45
-Khalifa Diop,CLE,Out,G League - On Assignment,11/20/2026,2026-11-20 11:45
-Evan Mobley,CLE,Out,Injury/Illness - Left Great Toe Sprain,11/20/2026,2026-11-20 11:45
-Nae'Qwan Tomlin,CLE,Out,Injury/Illness - Low Back Stress Reaction,11/20/2026,2026-11-20 11:45
-Jaylon Tyson,CLE,Out,Injury/Illness - Right Ankle Injury Management,11/20/2026,2026-11-20 11:45
-Ernest Udeh Jr.,CLE,Out,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Peyton Watson,CLE,Questionable,Injury/Illness - Low Back Contusion,11/20/2026,2026-11-20 11:45
-Paolo Banchero,ORL,Out,Injury/Illness - Right High Ankle Sprain,11/20/2026,2026-11-20 11:45
-Jonathan Isaac,ORL,Out,Injury/Illness - Left Knee Injury Management,11/20/2026,2026-11-20 11:45
-Izaiyah Nelson,ORL,Out,Injury/Illness - Left Ankle injury recovery,11/20/2026,2026-11-20 11:45
-Noah Penda,ORL,Out,Injury/Illness - Right Partially torn hamstring,11/20/2026,2026-11-20 11:45
-Grant Nelson,BKN,Out,Injury/Illness - Right Ankle Sprain,11/20/2026,2026-11-20 11:45
-RJ Barrett,TOR,Out,Injury/Illness - Right Hamstring Strain,11/20/2026,2026-11-20 11:45
-Nate Bittle,TOR,Out,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Jaden Bradley,TOR,Out,G League - On Assignment,11/20/2026,2026-11-20 11:45
-Kawhi Leonard,TOR,Out,Injury/Illness - Left Knee Injury Management,11/20/2026,2026-11-20 11:45
-Kevin McCullar Jr.,TOR,Out,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Collin Murray-Boyles,TOR,Out,Concussion Protocol,11/20/2026,2026-11-20 11:45
-Cade Cunningham,DET,Probable,Injury/Illness - Right Knee Soreness,11/20/2026,2026-11-20 11:45
-Jalen Duren,DET,Out,Injury/Illness - Right Hamstring Strain,11/20/2026,2026-11-20 11:45
-Ronald Holland II,DET,Out,Injury/Illness - Left Knee Contusion / Bone Bruise,11/20/2026,2026-11-20 11:45
-Ebuka Okorie,DET,Out,Injury/Illness - Left Oblique Strain,11/20/2026,2026-11-20 11:45
-Ugonna Onyenso,DET,Out,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Taurean Prince,DET,Out,Injury/Illness - Right Knee Surgery,11/20/2026,2026-11-20 11:45
-Duncan Robinson,DET,Out,Injury/Illness - Left Quadriceps Strain,11/20/2026,2026-11-20 11:45
-Malik Dia,NOP,Out,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Bennedict Mathurin,NOP,Out,Injury/Illness - Left Plantar Fasciitis,11/20/2026,2026-11-20 11:45
-Bryce McGowens,NOP,Out,Injury/Illness - Left Elbow Infection,11/20/2026,2026-11-20 11:45
-Trey Murphy III,NOP,Questionable,Injury/Illness - Bilateral Patellar Tendinopathy,11/20/2026,2026-11-20 11:45
-Dejounte Murray,NOP,Out,Injury/Illness - Left Ankle Sprain,11/20/2026,2026-11-20 11:45
-Jaron Pierre Jr.,NOP,Probable,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Julian Reese,NOP,Out,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Trendon Watford,NOP,Out,Injury/Illness - Right Ankle Sprain,11/20/2026,2026-11-20 11:45
-Alex Caruso,OKC,Questionable,Injury/Illness - Right Hip Soreness,11/20/2026,2026-11-20 11:45
-Chet Holmgren,OKC,Out,Injury/Illness - Right Knee/ Injury Recovery,11/20/2026,2026-11-20 11:45
-Thomas Sorber,OKC,Out,Injury/Illness - Right Knee Surgery,11/20/2026,2026-11-20 11:45
-Nikola Topic,OKC,Out,Injury/Illness - Left Hip Strain,11/20/2026,2026-11-20 11:45
-Cason Wallace,OKC,Out,Injury/Illness - Left Shoulder Surgery,11/20/2026,2026-11-20 11:45
-Jalen Williams,OKC,Out,Injury/Illness - Left Ankle Surgery,11/20/2026,2026-11-20 11:45
-Reece Beekman,WAS,Out,Injury/Illness - Right AC Joint Sprain / Separation,11/20/2026,2026-11-20 11:45
-Justin Champagnie,WAS,Out,Injury/Illness - Right Foot Surgery,11/20/2026,2026-11-20 11:45
-Felix Okpara,WAS,Questionable,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Tristan Vukcevic,WAS,Out,Injury/Illness - Left Hip Impingement,11/20/2026,2026-11-20 11:45
-Jamir Watkins,WAS,Out,Injury/Illness - Left ACL Repair / Surgery,11/20/2026,2026-11-20 11:45
-Tobe Awaka,CHI,Out,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Noa Essengue,CHI,Probable,Injury/Illness - Bilateral Wrist Soreness,11/20/2026,2026-11-20 11:45
-Orlando Robinson,CHI,Out,G League - On Assignment,11/20/2026,2026-11-20 11:45
-Jaylin Sellers,CHI,Out,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Dailyn Swain,CHI,Out,G League - On Assignment,11/20/2026,2026-11-20 11:45
-Caleb Wilson,CHI,Out,Injury/Illness - Right Metacarpal Fracture,11/20/2026,2026-11-20 11:45
-Mark Williams,PHX,Out,Injury/Illness - Left Shoulder Surgery,11/20/2026,2026-11-20 11:45
-Jonas Aidoo,UTA,Out,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Kobe Bufkin,UTA,Out,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Harrison Ingram,UTA,Out,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Jaren Jackson Jr.,UTA,Out,Injury/Illness - Right MCL Tear,11/20/2026,2026-11-20 11:45
-Lauri Markkanen,UTA,Out,Injury/Illness - Right Hand Fracture,11/20/2026,2026-11-20 11:45
-Jusuf Nurkic,UTA,Out,Injury/Illness - Right 2nd Plantar Plate Tear,11/20/2026,2026-11-20 11:45
-Steven Adams,HOU,Questionable,Injury/Illness - Right Quadriceps Contusion,11/20/2026,2026-11-20 11:45
-Clint Capela,HOU,Out,Injury/Illness - Right Ankle Sprain,11/20/2026,2026-11-20 11:45
-Quadir Copeland,HOU,Out,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Julian Phillips,HOU,Out,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Alperen Sengun,HOU,Questionable,Injury/Illness - Left Eye Corneal Abrasion,11/20/2026,2026-11-20 11:45
-Bruce Thornton,HOU,Out,G League - On Assignment,11/20/2026,2026-11-20 11:45
-DaRon Holmes II,DEN,Out,G League - On Assignment,11/20/2026,2026-11-20 11:45
-Bryce Hopkins,DEN,Out,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Julian Strawther,DEN,Out,Injury/Illness - Left Knee Sprain,11/20/2026,2026-11-20 11:45
-Cam Whitmore,DEN,Out,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Precious Achiuwa,SAC,Doubtful,Injury/Illness - Left Lower Leg Contusion,11/20/2026,2026-11-20 11:45
-De'Andre Hunter,SAC,Questionable,Injury/Illness - Left Hip Soreness / Tightness,11/20/2026,2026-11-20 11:45
-Jonathan Mogbo,SAC,Out,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Sean Pedulla,SAC,Out,G League - Two-Way,11/20/2026,2026-11-20 11:45
-Maxime Raynaud,SAC,Out,Injury/Illness - Right Patella Subluxation,11/20/2026,2026-11-20 11:45
-Ben Simmons,SAC,Out,Injury/Illness - Right Achilles Tendon Repair / Surgery,11/20/2026,2026-11-20 11:45
-Quentin Grimes,LAL,Available,Injury/Illness - Right Finger Splint,11/20/2026,2026-11-20 11:45
-Austin Reaves,LAL,Out,Injury/Illness - Left Heel Contusion / Bone Bruise,11/20/2026,2026-11-20 11:45
+Ousmane Dieng,MIL,Out,Injury/Illness - Left Finger Fracture,11/21/2026,2026-11-21 11:30
+Kam Jones,MIL,Out,G League - Two-Way,11/21/2026,2026-11-21 11:30
+Bogoljub Markovic,MIL,Out,G League - On Assignment,11/21/2026,2026-11-21 11:30
+Dominick Barlow,PHI,Probable,Injury/Illness - Low Back Stress Reaction,11/21/2026,2026-11-21 11:30
+Adem Bona,PHI,Out,Injury/Illness - Cervical Spine Sprain,11/21/2026,2026-11-21 11:30
+Jaylen Brown,PHI,Out,Injury/Illness - Left Hamstring Strain,11/21/2026,2026-11-21 11:30
+Ariel Hukporti,PHI,Out,Injury/Illness - Right Achilles Tendon Rupture / Tear,11/21/2026,2026-11-21 11:30
+Tyrese Maxey,PHI,Questionable,Injury/Illness - Right Foot Sprain,11/21/2026,2026-11-21 11:30
+Dean Wade,PHI,Out,Injury/Illness - Left Hamstring Tightness / Soreness,11/21/2026,2026-11-21 11:30
+Deni Avdija,POR,Questionable,Injury/Illness - Left Foot Contusion,11/21/2026,2026-11-21 11:30
+Branden Carlson,POR,Available,Injury/Illness - Face Mask,11/21/2026,2026-11-21 11:30
+Vit Krejci,POR,Out,Injury/Illness - Left Ankle Fracture,11/21/2026,2026-11-21 11:30
+Ja Morant,POR,Out,Injury/Illness - Left Hamstring Strain,11/21/2026,2026-11-21 11:30
+Shaedon Sharpe,POR,Out,Injury/Illness - Right Meniscus Surgery,11/21/2026,2026-11-21 11:30
+Chris Youngblood,POR,Out,Injury/Illness - Right Heel Contusion / Bone Bruise,11/21/2026,2026-11-21 11:30
+OG Anunoby,NYK,Doubtful,Injury/Illness - Left Calf Tightness,11/21/2026,2026-11-21 11:30
+Jordan Clarkson,NYK,Out,Injury/Illness - Right Plantar Fasciitis,11/21/2026,2026-11-21 11:30
+Karl-Anthony Towns,NYK,Questionable,Injury/Illness - Illness,11/21/2026,2026-11-21 11:30
+Bradley Beal,LAC,Out,Injury/Illness - Right Knee Injury Management,11/21/2026,2026-11-21 11:30
+Brandon Ingram,LAC,Out,Injury/Illness - Right Heel Surgery,11/21/2026,2026-11-21 11:30
+Nick Martinelli,LAC,Out,G League - Two-Way,11/21/2026,2026-11-21 11:30
+Jordan Miller,LAC,Out,Injury/Illness - Left Rotator Cuff Surgery,11/21/2026,2026-11-21 11:30
+Jalen Pickett,LAC,Out,G League - Two-Way,11/21/2026,2026-11-21 11:30
+Tarik Biberovic,DAL,Out,Injury/Illness - Right Heel Bursitis,11/21/2026,2026-11-21 11:30
+Walter Clayton Jr.,DAL,Questionable,Injury/Illness - Left Patellar Tendinitis,11/21/2026,2026-11-21 11:30
+Sergio de Larrea,DAL,Out,Injury/Illness - Right Knee Sprain,11/21/2026,2026-11-21 11:30
+Jett Howard,DAL,Questionable,G League - Two-Way,11/21/2026,2026-11-21 11:30
+Tobi Lawal,DAL,Out,Injury/Illness - Right Groin Strain,11/21/2026,2026-11-21 11:30
+Dereck Lively II,DAL,Out,Injury/Illness - Right Foot Surgery,11/21/2026,2026-11-21 11:30
+Caleb Martin,DAL,Available,Injury/Illness - Right Thumb Splint,11/21/2026,2026-11-21 11:30
+P.J. Washington,DAL,Questionable,Injury/Illness - Left Shoulder Impingement,11/21/2026,2026-11-21 11:30
+Cameron Boozer,MEM,Out,Injury/Illness - Right Ankle Sprain,11/21/2026,2026-11-21 11:30
+Jerami Grant,MEM,Out,Injury/Illness - Left Calf Strain,11/21/2026,2026-11-21 11:30
+GG Jackson,MEM,Out,Injury/Illness - Left 5th Metatarsal Fracture,11/21/2026,2026-11-21 11:30
+Ty Jerome,MEM,Probable,Injury/Illness - Right Hip Impingement,11/21/2026,2026-11-21 11:30
+Scotty Pippen Jr.,MEM,Out,Injury/Illness - Lumbar Disc Herniation,11/21/2026,2026-11-21 11:30
+Richie Saunders,MEM,Out,Injury/Illness - Right Knee Surgery,11/21/2026,2026-11-21 11:30
+Javon Small,MEM,Out,Personal Reasons,11/21/2026,2026-11-21 11:30
+Joan Beringer,MIN,Available,Injury/Illness - Face Mask,11/21/2026,2026-11-21 11:30
+Jaylen Clark,MIN,Out,Injury/Illness - Right Hamstring Strain,11/21/2026,2026-11-21 11:30
+Donte DiVincenzo,MIN,Out,Injury/Illness - Right Achilles Tendon Repair / Surgery,11/21/2026,2026-11-21 11:30
+Anthony Edwards,MIN,Out,Injury/Illness - Right Knee Arthroscopy,11/21/2026,2026-11-21 11:30
+Rocco Zikarsky,MIN,Out,G League - Two-Way,11/21/2026,2026-11-21 11:30
+Maliq Brown,SAS,Out,G League - Two-Way,11/21/2026,2026-11-21 11:30
+Ja'Kobi Gillespie,SAS,Out,G League - Two-Way,11/21/2026,2026-11-21 11:30
+Dylan Harper,SAS,Out,Injury/Illness - Left Hip External Rotator Strain,11/21/2026,2026-11-21 11:30
+Tobias Harris,SAS,Out,Injury/Illness - Left Calf Strain,11/21/2026,2026-11-21 11:30
+Jayden Quaintance,SAS,Out,Injury/Illness - Right Knee Surgery,11/21/2026,2026-11-21 11:30
+Dillon Mitchell,BOS,Out,G League - Two-Way,11/21/2026,2026-11-21 11:30
+Jayson Tatum,BOS,Questionable,Rest,11/21/2026,2026-11-21 11:30
+Derrick White,BOS,Questionable,Injury/Illness - Left AC Joint Contusion,11/21/2026,2026-11-21 11:30
+Amari Williams,BOS,Out,G League - Two-Way,11/21/2026,2026-11-21 11:30
